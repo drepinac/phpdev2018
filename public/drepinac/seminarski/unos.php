@@ -21,6 +21,36 @@ and open the template in the editor.
      </style>
     </head>
     <body>
+        
+      <?php
+        if (isset($_GET['brisanje'])) {
+            $query ="delete from filmovi where id = ?";
+            if ($stmt = $mysqli->prepare($query)) {
+                $stmt->bind_param('i', $_GET['brisanje']);  // u prepare mora ici varijabla
+                $stmt->execute();
+                $stmt->close();  
+            }
+        }
+//        $mysqli->close();
+               
+        if (isset($_GET['izmjena'])) {
+        $query ="select naslov, id_zanr, godina, trajanje, slika, id from filmovi where id = ?";
+        if ($stmt = $mysqli->prepare($query)) {
+            $upit = '%';
+                         $stmt->bind_param('i', $_GET['izmjena']);  // u prepare mora ici varijabla
+             $stmt->execute();
+        $stmt->bind_result($naslov, $id_zanr, $godina, $trajanje, $slika, $id);
+        while ($stmt->fetch()) {
+        }
+        $stmt->close();  
+        }
+//        $mysqli->close();
+        } else 
+        {
+           $naslov='';}
+      ?>
+
+        
         <div class="container well">
         <form style="border:1">
             <h2>Ažuriranje podataka o filmovima</h2>
@@ -29,7 +59,7 @@ and open the template in the editor.
                 Naslov:<br/>
             </div>
             <div class="col-md-1">
-                <input type="text" name="naslov" value="" /><br/>
+                <input type="text" name="naslov" value="<?=$naslov?>" /><br/>
             </div>
         </div>
         <div class="row">
@@ -37,7 +67,7 @@ and open the template in the editor.
                 Žanr:<br/>
             </div>
             <div class="col-md-1">
-                <input type="text" name="zanr" value="" /><br/>
+                <input type="text" name="zanr" value="<?=$id_zanr?>" /><br/>
             </div>
         </div>
         <div class="row">
@@ -45,7 +75,7 @@ and open the template in the editor.
                 Godina:<br/>
             </div>
             <div class="col-md-1">
-                <input type="text" name="godina" value="" /><br/>
+                <input type="text" name="godina" value="<?=$godina?>" /><br/>
             </div>
         </div>
         <div class="row">
@@ -53,7 +83,7 @@ and open the template in the editor.
                 Trajanje:<br/>
             </div>
             <div class="col-md-1">
-                <input type="text" name="trajanje" value="" /><br/>
+                <input type="text" name="trajanje" value="<?=$trajanje?>" /><br/>
             </div>
         </div>
         <div class="row">
@@ -61,15 +91,13 @@ and open the template in the editor.
                 Slika:<br/>
             </div>
             <div class="col-md-1">
-                <input type="text" name="slika" value="" /><br/>
+                <input type="text" name="slika" value="<?=$slika?>" /><br/>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-1">
-                pokreni:<br/>
-            </div>
-            <div class="col-md-1">
-                <input type="submit" name="izmjeni"/><br/>
+            <div class="col-md-1"></div>
+            <div class="col-md-1"><br>
+                <input type="submit" name="izmjeni" value="Spremi"/><br/>
             </div>
         </div>
       </form>
@@ -94,9 +122,11 @@ and open the template in the editor.
                     $stmt->bind_result($naslov, $godina, $trajanje, $slika, $id);
                     while ($stmt->fetch()) {
                         echo '<tr>';
+                        $poruka = "'Da li stvarno želite obrisati file?'";
                         echo '<td width=70px, height=150px><img style="display:block;" src=slike/'.$slika.' height=100%></td>'
                              .'<td>'.$naslov.'</td><td>'.$godina.'</td><td>'.$trajanje.'</td>'
-                             .'<td>[<a href="unos.php?broj='.$id.'">obriši</a>]</td>';
+                             .'<td>[<a href="unos.php?brisanje='.$id.'" onclick="return confirm('.$poruka.')">obriši</a>]'
+                                . ' [<a href="unos.php?izmjena='.$id.'">izmjeni</a>]</td>';
                         echo '</tr>';
                     }
                     $stmt->close();  
