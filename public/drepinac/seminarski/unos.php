@@ -69,7 +69,7 @@ and open the template in the editor.
                 pokreni:<br/>
             </div>
             <div class="col-md-1">
-                <input type="text" name="pokreni" value="" /><br/>
+                <input type="submit" name="izmjeni"/><br/>
             </div>
         </div>
       </form>
@@ -93,8 +93,11 @@ and open the template in the editor.
                          $stmt->execute();
                     $stmt->bind_result($naslov, $godina, $trajanje, $slika, $id);
                     while ($stmt->fetch()) {
-                        echo "<tr>";
-                        echo '<td width=70px, height=150px><img style="display:block;" src=slike/'.$slika.' height=100%></td><td>'.$naslov.'</td><td>'.$godina.'</td><td>'.$trajanje.'</td><td>'.$id.'</td>';
+                        echo '<tr>';
+                        echo '<td width=70px, height=150px><img style="display:block;" src=slike/'.$slika.' height=100%></td>'
+                             .'<td>'.$naslov.'</td><td>'.$godina.'</td><td>'.$trajanje.'</td>'
+                             .'<td>[<a href="unos.php?broj='.$id.'">obriši</a>]</td>';
+                        echo '</tr>';
                     }
                     $stmt->close();  
                     }
