@@ -23,6 +23,9 @@ and open the template in the editor.
     <body>
         
       <?php
+        if (isset($_GET['unos'])) {
+            
+        }
         if (isset($_GET['brisanje'])) {
             $query ="delete from filmovi where id = ?";
             if ($stmt = $mysqli->prepare($query)) {
@@ -30,6 +33,7 @@ and open the template in the editor.
                 $stmt->execute();
                 $stmt->close();  
             }
+            header('Location: unos.php');
         }
 //        $mysqli->close();
                
@@ -47,7 +51,12 @@ and open the template in the editor.
 //        $mysqli->close();
         } else 
         {
-           $naslov='';}
+           $naslov='';
+           $id_zanr='';
+           $godina='';
+           $trajanje='';
+           $slika='';
+        }
       ?>
 
         
@@ -96,8 +105,8 @@ and open the template in the editor.
         </div>
         <div class="row">
             <div class="col-md-1"></div>
-            <div class="col-md-1"><br>
-                <input type="submit" name="izmjeni" value="Spremi"/><br/>
+            <div class="col-md-3"><br>
+                <input type="submit" name="izmjeni" value="Spremi"/> <input type="submit" name="unos" value="Upis novog filma"/>
             </div>
         </div>
       </form>
@@ -125,8 +134,7 @@ and open the template in the editor.
                         $poruka = "'Da li stvarno želite obrisati file?'";
                         echo '<td width=70px, height=150px><img style="display:block;" src=slike/'.$slika.' height=100%></td>'
                              .'<td>'.$naslov.'</td><td>'.$godina.'</td><td>'.$trajanje.'</td>'
-                             .'<td>[<a href="unos.php?brisanje='.$id.'" onclick="return confirm('.$poruka.')">obriši</a>]'
-                                . ' [<a href="unos.php?izmjena='.$id.'">izmjeni</a>]</td>';
+                             .'<td>[<a href="unos.php?brisanje='.$id.'" onclick="return confirm('.$poruka.')">obriši</a>]'.' [<a href="unos.php?izmjena='.$id.'">izmjeni</a>]</td>';
                         echo '</tr>';
                     }
                     $stmt->close();  
