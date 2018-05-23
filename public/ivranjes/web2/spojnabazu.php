@@ -25,7 +25,7 @@ if ($link) {
       <?php
       $query="SELECT * FROM stud";
       $result= mysqli_query($link, $query);
-      echo "Broj studenata je:". mysqli_affected_rows($link);
+      echo "Broj ispita je:". mysqli_affected_rows($link);
       
       
       ?>
@@ -39,7 +39,7 @@ if ($link) {
         . "VALUES ('Nerxon', 'lozim@te.com', '1223')";
       
     //  $result= mysqli_query($link, $query);
-      echo "Pokušam unijeti jednog usera:". mysqli_affected_rows($link);
+      echo "Pokušam unijeti jedan ispit:". mysqli_affected_rows($link);
       
       
       ?>
@@ -49,20 +49,41 @@ if ($link) {
       <div>
         Dohvaćanje zapisa<br>
       <?php
-      $query="SELECT * FROM stud limit 5";
+      $query="SELECT * FROM ispit limit 5";
       
       $result= mysqli_query($link, $query);
      
       while ($row= mysqli_fetch_row($result)) {
           echo $row[0]." ".$row[1]." ".$row[2]." ".$row[3]."<br>";
       }
-      while($row=mysql_fetch-array($result)){
-      echo 'ime:'.row["imeStud"].'prezime:'.$row[1];}
-      while($row=mysql_fetch_assoc($result))
-      { echo'ime:'$row
-      }
+      
       ?>
+        
+             
+    </div>  
+    
+        <hr>
+      <div>
+        Dohvaćanje zapisa<br>
+      <?php
+      $query="SELECT * FROM mjesto limit 3";
+      
+      $result= mysqli_query($link, $query);
+     
+      while ($row= mysqli_fetch_row($result)) {
+          echo $row[0]." ".$row[1]." ".$row[2]." ".$row[3]."<br>";
+      }
+      
+      ?>
+        
+         <?php
+       while ($row1 = mysql_fetch_array($query)) {
+           echo 'ime.'.$row["nazMjesto"].'prezime:'.$row[1];
+       }
+        ?>
     </div>  
   </body>
 </html>
-<?php
+
+
+

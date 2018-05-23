@@ -1,4 +1,5 @@
 <?php
+
 include_once './dbconn.php';
 ?>
 
@@ -10,16 +11,20 @@ include_once './dbconn.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   </head>
   <body>
-    <div>
-      <?php
-      $query ="SELECT * FROM stud LIMIT 50";
-      $result= $mysqli->query($query);
-      while ($row = $result->fetch_assoc()) {
-          echo $row['imeStud']." ".$row['prezStud'].'</br>';
-      }
-    ?>
     
+        
+        <?php
+        $query="SELECT * FROM stud LIMIT 50";
+        $result= mysqli_query($link, $query);
+        while ($row = mysql_fetch_assoc($result)) {
+            echo $row('imeStud')." ".row;
+        }
+  
+?>
+
     </div>
   </body>
 </html>
-<?php $mysqli->close(); ?>
+
+<?php mysqli_close($link);
+?>

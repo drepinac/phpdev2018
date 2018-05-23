@@ -21,16 +21,6 @@ if (isset($_POST['update'])) {
         $_SESSION['email'] =$_POST['email'];
     }
 }
-if (isset($_GET['del']) && isset($_SESSION['login'])) {
-    $query = "DELETE FROM `fakultet`.`users` WHERE `email`=?;";
-    if ($stmt = $mysqli->prepare($query)) {
-        $stmt->bind_param('s', $_SESSION['email']);
-        $stmt->execute();
-        unset($_SESSION['login']);
-        header('Location: login.php');
-        exit;
-    }
-}
 ?>
 
 
@@ -85,9 +75,6 @@ if (isset($_GET['del']) && isset($_SESSION['login'])) {
                   <input type="submit" name="update" class="btn btn-lg btn-primary btn-block" value="Update">
 
                 </div>
-                					<div class="col-xs-6 col-sm-6 col-md-6">
-						<a id="reg" href="restricted.php?del=true" class="btn btn-lg btn-primary btn-block">Self-destroy</a>
-					</div>
               </div>
             </fieldset>
           </form>
@@ -97,3 +84,4 @@ if (isset($_GET['del']) && isset($_SESSION['login'])) {
     </div>
   </body>
 </html>
+
