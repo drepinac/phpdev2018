@@ -53,12 +53,13 @@ and open the template in the editor.
             }</style>
 <?php           
 }
+//print_r($_FILES);
 //      upisivanje filmova u bazu nakon submita
         if (isset($_POST['unos'])) {
             $query="insert into filmovi (naslov, id_zanr, godina, trajanje, slika) "
                  . "values (?, ?, ?, ?, ?)";
             if ($stmt = $mysqli->prepare($query)) {
-                $stmt->bind_param('siiis', $_POST['naslov'], $_POST['zanr'], $_POST['godina'], $_POST['trajanje'], $_FILES['datoteka']['name']);  // u prepare mora ici varijabla
+                $stmt->bind_param('siiis', $_POST['naslov'], $_POST['zanr'], $_POST['godina'], $_POST['trajanje'], $slika);  // u prepare mora ici varijabla
                 $stmt->execute();
                 $stmt->close();  
 
@@ -67,10 +68,10 @@ and open the template in the editor.
                 $uploadfile = basename($_FILES['datoteka']['name']);
                 $file_array = explode(".", $uploadfile);
                 $file_ext = end($file_array);
-//                echo $file_ext.'</br>';
+                echo $file_ext.'</br>';
                 $new_file_name = $uploaddir.$uploadfile;
 //                echo $uploaddir.'</br>';
-                echo $new_file_name.'</br>';
+//                echo $new_file_name.'</br>';
 //                echo($_FILES['datoteka']['tmp_name']);
 //                echo('</br>');
                 if (file_exists($new_file_name)) {
@@ -83,9 +84,9 @@ and open the template in the editor.
             $_POST = array(); //očisti post array
 ?>
             <style type="text/css">#forma{
-            display:none;
+            display:block;
             }</style>
-<?php            header('Location: unos.php');
+<?php       header('Location: unos.php');
         }
 
 //      Pokretanje brisanja filma
@@ -103,7 +104,13 @@ and open the template in the editor.
 
             $query ="update filmovi set naslov = ?, id_zanr = ?, godina = ?, trajanje = ?, slika = ? where id = ?";
             if ($stmt = $mysqli->prepare($query)) {
-                $stmt->bind_param('siiisi', $_POST['naslov'], $_POST['zanr'], $_POST['godina'], $_POST['trajanje'], $_FILES['datoteka']['name'], $_POST['id']);  // u prepare mora ici varijabla
+                print_r($_FILES);
+                if ($_FILES['datoteka']['error']==4) {
+                   print_r($_POST);
+                   $slika = $_POST['slika'];
+                    echo $slika;
+                } else { $slika = $_FILES['datoteka']['name']; }
+                $stmt->bind_param('siiisi', $_POST['naslov'], $_POST['zanr'], $_POST['godina'], $_POST['trajanje'], $slika, $_POST['id']);  // u prepare mora ici varijabla
                 $stmt->execute();
                 $stmt->close();  
             }
@@ -143,10 +150,11 @@ and open the template in the editor.
         }
       ?>
 <?php
-echo '<pre>';
-print_r($_POST);
-print_r($_GET);
-echo '</pre>';
+//echo '<pre>';
+//print_r($_POST);
+//print_r($_GET);
+//print_r($_FILES);
+//echo '</pre>';
 ?>
         
         <div id="forma" class="container well">
@@ -203,6 +211,7 @@ echo '</pre>';
             </div>
             <div class="col-md-1">
                 <?=$slika?><br/>
+                <input type="hidden" name="slika" value="<?=$slika?>" />
                 <input type="file" name="datoteka" value=""/><br/>
             </div>
         </div>
@@ -231,7 +240,7 @@ echo '</pre>';
             </div>
 <!-- dugme za unos novog filma -->
 
-<div style="text-align: center"  class="col-md-12 align-self-center">
+        <div style="text-align: center"  class="col-md-12 align-self-center">
                 <br>
                 <table align="center" width="90%" border="1">
                     <thead>

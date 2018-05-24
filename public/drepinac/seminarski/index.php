@@ -36,7 +36,7 @@ and open the template in the editor.
                 <?php
                     if (isset($_GET['slovo'])) {
                         $upit = $_GET['slovo'].'%';
-                    } else {$upit = '%';}
+                    } else {$upit = ' ';}
                     $query ="select naslov, godina, trajanje, slika from filmovi where naslov like ? order by naslov";
                     if ($stmt = $mysqli->prepare($query)) {
 //                        $upit = $_GET['slovo'].'%';
