@@ -37,6 +37,21 @@ and open the template in the editor.
             }</style>
 <?php           
 }
+        if (isset($_POST['povratak'])){
+           $id='';
+           $naslov='';
+           $id_zanr='';
+           $godina='';
+           $trajanje='';
+           $slika='';
+           $_POST=Array();
+           $_GET=Array();
+?>
+            <style type="text/css">#forma{
+            display:none;
+            }</style>
+<?php           
+}
 //      upisivanje filmova u bazu nakon submita
         if (isset($_POST['unos'])) {
             $query="insert into filmovi (naslov, id_zanr, godina, trajanje, slika) "
@@ -129,7 +144,7 @@ and open the template in the editor.
                 Naslov:<br/>
             </div>
             <div class="col-md-1">
-                <input type="hidden" name="id" value="<?=$id?>"
+                <input type="hidden" name="id" value="<?=$id?>" />
                 <input type="text" name="naslov" value="<?=$naslov?>" /><br/>
             </div>
         </div>
@@ -182,6 +197,7 @@ and open the template in the editor.
             <div class="col-md-1"></div>
             <div class="col-md-3"><br>
                 <?php
+                echo '<input type="submit" name="povratak" value="Odustani" />';
                 if (isset($_POST['novi'])){
                   echo '<input type="submit" name="unos" value="Upis novog filma"/>';} else {
                   echo '<input type="submit" name="izmjeni" value="Spremi izmjene"/>';}
