@@ -44,8 +44,9 @@ and open the template in the editor.
            $godina='';
            $trajanje='';
            $slika='';
-           $_POST=Array();
-           $_GET=Array();
+           $_POST = array();
+           $_GET = array();
+            header('Location: unos.php');
 ?>
             <style type="text/css">#forma{
             display:none;
@@ -102,10 +103,11 @@ and open the template in the editor.
 
             $query ="update filmovi set naslov = ?, id_zanr = ?, godina = ?, trajanje = ?, slika = ? where id = ?";
             if ($stmt = $mysqli->prepare($query)) {
-                $stmt->bind_param('siiis', $_POST['naslov'], $_POST['zanr'], $_POST['godina'], $_POST['trajanje'], $_FILES['datoteka']['name'], $_POST['id']);  // u prepare mora ici varijabla
+                $stmt->bind_param('siiisi', $_POST['naslov'], $_POST['zanr'], $_POST['godina'], $_POST['trajanje'], $_FILES['datoteka']['name'], $_POST['id']);  // u prepare mora ici varijabla
                 $stmt->execute();
                 $stmt->close();  
             }
+
             $_POST = array(); //očisti post array
             header('Location: unos.php');
             
@@ -124,6 +126,12 @@ and open the template in the editor.
             $stmt->close();  
             }
 //        $mysqli->close();
+?>
+            <style type="text/css">#forma{
+            display:block;
+            }</style>
+<?php           
+
         } else 
         {
            $id='';
@@ -134,7 +142,12 @@ and open the template in the editor.
            $slika='';
         }
       ?>
-
+<?php
+echo '<pre>';
+print_r($_POST);
+print_r($_GET);
+echo '</pre>';
+?>
         
         <div id="forma" class="container well">
         <form method="POST" action="<?php $_PHP_SELF ?>" enctype="multipart/form-data" style="border:1">
@@ -236,7 +249,7 @@ and open the template in the editor.
                     $stmt->bind_result($naslov, $godina, $trajanje, $slika, $id);
                     while ($stmt->fetch()) {
                         echo '<tr>';
-                        $poruka = "'Da li stvarno želite obrisati file?'";
+                        $poruka = "'Da li stvarno želite obrisati film?'";
                         echo '<td width=70px, height=150px><img style="display:block;" src=images/'.$slika.' height=100%></td>'
                              .'<td>'.$naslov.'</td><td>'.$godina.'</td><td>'.$trajanje.'</td>'
 //                             .'<td>[<a href="unos.php?brisanje='.$id.'" onclick="return confirm('.$poruka.')">obriši</a>]'.' [<a href="unos.php?izmjena='.$id.'">izmjeni</a>]</td>';
