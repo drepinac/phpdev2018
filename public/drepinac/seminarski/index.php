@@ -34,16 +34,19 @@ and open the template in the editor.
                 <table align="center" width="90%">
                 <tbody>
                 <?php
+                    if (isset($_GET['slovo'])) {
+                        $upit = $_GET['slovo'].'%';
+                    } else {$upit = '%';}
                     $query ="select naslov, godina, trajanje, slika from filmovi where naslov like ? order by naslov";
                     if ($stmt = $mysqli->prepare($query)) {
-                        $upit = $_GET['slovo'].'%';
+//                        $upit = $_GET['slovo'].'%';
                          $stmt->bind_param('s', $upit);  // u prepare mora ici varijabla
 //                         $stmt->bind_param('s', 'H');  // u prepare mora ici varijabla
                          $stmt->execute();
                     $stmt->bind_result($naslov, $godina, $trajanje,$slika);
                     while ($stmt->fetch()) {
                         echo "<tr>";
-                        echo '<td><img src=slike/'.$slika.' width=10% height=10%><br>'.$naslov.'('.$godina.')<br>Trajanje: '.$trajanje.' min</td>';
+                        echo '<td><img src=images/'.$slika.' width=10% height=10%><br>'.$naslov.'('.$godina.')<br>Trajanje: '.$trajanje.' min</td>';
                     }
                     $stmt->close();  
                     }
