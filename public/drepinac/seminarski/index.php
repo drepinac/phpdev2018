@@ -21,7 +21,7 @@ and open the template in the editor.
         <div class="row">
             
             <div style="text-align: center"  class="col-md-12 align-self-center">
-                <h1> Videoteka ALGEBRA </h1>
+                <h1> Videoteka ALGEBAR </h1>
                 <?php
                   for ($i = 65; $i <= 90; $i++) {
                   echo ' | <a href="index.php?slovo='.chr($i).'">'.chr($i).'</a>';
